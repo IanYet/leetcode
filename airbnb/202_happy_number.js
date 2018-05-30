@@ -18,8 +18,7 @@
  * @param {number} n
  * @return {boolean}
 */
-const preNum = []
-var isHappy = function (n) {
+var isHappy = function (n, preNum = []) {
     const numStr = n.toString()
     let sum = 0
 
@@ -29,13 +28,13 @@ var isHappy = function (n) {
     }
 
 
-    if(sum === 1){
+    if (sum === 1) {
         return true
-    }else if(preNum.includes(sum)){
+    } else if (preNum.includes(sum)) {
         return false
-    }else{
+    } else {
         preNum.push(sum)
-        return isHappy(sum)
+        return isHappy(sum, preNum)
     }
 };
 
