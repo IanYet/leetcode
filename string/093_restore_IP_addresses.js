@@ -48,4 +48,4 @@ var isValid = function(ips) {
     return ips.every((ip) => ip!=='' && Number(ip)<=255 && Number(ip)>=0 && Number(ip).toString() === ip)
 }
 
-restoreIpAddresses("0000")
+restoreIpAddresses("1457801")
