@@ -26,7 +26,7 @@ var palindromePairs = function(words) {
     console.log(wordMap);
 
     words.forEach((word, i) => {
-        
+        var pos = palindromePos(word)
     })
 };
 
@@ -34,9 +34,11 @@ var palindromePairs = function(words) {
  * 
  * @param {String} s 
  */
-var isPalindrome = function(s) {
-    console.log(s);
-    return s === s.split('').reverse().join('')
+var palindromePos = function(s) {
+    var sa = s.split('')
+    var sra = sa.reverse()
+
+    
 }
 
 console.log(palindromePairs(["bat","tab","cat"]));
