@@ -30,5 +30,53 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
  * @return {number}
  */
 var maxProfit = function(prices) {
-    
-};
+    let current = prices[0]
+    let maxProfit = 0
+    let [minPos, minTmp, maxPos] = [0, 0, 0]
+
+    for(let i=1;i<prices.length;i++){
+        let profit = prices[i] - current
+        if(profit > maxProfit){
+            maxProfit = profit
+            maxPos = i
+            minPos = minTmp
+        }
+
+        if(prices[i] <= current){
+            current = prices[i]
+            minTmp = i
+        }
+    }
+
+    if(minPos === maxPos || maxProfit === 0){
+        return 0
+    }
+    console.log(minPos, maxPos);
+
+    const prePrices = prices.slice(0, minPos) || [0],
+          inPrices = prices.slice(minPos+1, maxPos) || [0],
+          afPrices = prices.slice(maxPos+1)|| [0]
+
+    console.log(prePrices, inPrices, afPrices);
+    const preProfit = profit(prePrices),
+          afProfit = profit(afPrices)
+          inProfit = profit(inPrices.reverse())
+
+    console.log(maxProfit, preProfit, inProfit, afProfit);
+    return maxProfit + Math.max(preProfit, afProfit, inProfit)
+}
+
+var profit = function(prices){
+    let current = prices[0]
+    let maxProfit = 0
+
+    for(let i=1;i<prices.length;i++){
+        let profit = prices[i] - current
+        maxProfit = profit > maxProfit?profit:maxProfit
+        current = prices[i] < current ? prices[i]: current
+    }
+
+    return maxProfit
+}
+
+console.log(maxProfit([1,2,3,4,5]));
