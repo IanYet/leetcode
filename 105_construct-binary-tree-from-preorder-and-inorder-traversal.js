@@ -1,13 +1,13 @@
 /**
- * Given inorder and postorder traversal of a tree, construct the binary tree.
+ * Given preorder and inorder traversal of a tree, construct the binary tree.
 
 Note:
 You may assume that duplicates do not exist in the tree.
 
 For example, given
 
+preorder = [3,9,20,15,7]
 inorder = [9,3,15,20,7]
-postorder = [9,15,7,20,3]
 Return the following binary tree:
 
     3
@@ -17,7 +17,7 @@ Return the following binary tree:
    15   7
  */
 
- /**
+/**
  * Definition for a binary tree node.
  * function TreeNode(val) {
  *     this.val = val;
@@ -25,15 +25,16 @@ Return the following binary tree:
  * }
  */
 /**
+ * @param {number[]} preorder
  * @param {number[]} inorder
- * @param {number[]} postorder
  * @return {TreeNode}
  */
-var buildTree = function(inorder, postorder) {
+
+var buildTree = function(preorder, inorder) {
     if(inorder.length === 0) return null
 
-    const root = new TreeNode(postorder.pop())
-    let inLeft = [], inRight = [], postLeft = [], postRight = []
+    const root = new TreeNode(preorder.shift())
+    let inLeft = [], inRight = [], preLeft = [], preRight = []
     const pos = inorder.indexOf(root.val)
 
     for(let i=0;i<inorder.length;i++){
@@ -44,11 +45,11 @@ var buildTree = function(inorder, postorder) {
         }
     }
 
-    postLeft = postorder.splice(0, inLeft.length)
-    postRight = postorder
+    preLeft = preorder.splice(0, inLeft.length)
+    preRight = preorder
 
-    root.left = buildTree(inLeft, postLeft)
-    root.right = buildTree(inRight, postRight)
+    root.left = buildTree(preLeft, inLeft)
+    root.right = buildTree(preRight, inRight)
 
     return root
 };
