@@ -34,11 +34,55 @@ Every string in deadends and the string target will be a string of 4 digits from
 
  */
 
- /**
+/**
  * @param {string[]} deadends
  * @param {string} target
  * @return {number}
  */
 var openLock = function(deadends, target) {
+    if(deadends.includes('0000')) return -1
     
-};
+    const queue = []
+    const distance = {}
+    const visited = {}
+    const pred = {}
+
+    queue.unshift('0000')
+    visited['0000'] = true
+    distance['start'] = -1
+    pred['0000'] = 'start'
+
+    while (queue.length !== 0) {
+        const state = queue.pop()
+        distance[state] = distance[pred[state]] + 1
+        if(state === target) return distance[state]
+
+        findNext(state).forEach(next => {
+            if(!visited[next] && !deadends.includes(next)){
+                queue.unshift(next)
+                visited[next] = true
+                pred[next] = state
+            }
+        })
+    }
+
+    return distance[target] || -1
+}
+
+var findNext = state => {
+    const [a, b, c, d] = state.split('').map(i => Number(i))
+
+    return [
+        [a, b, c, d + 1 > 9 ? 0 : d + 1].join(''),
+        [a, b, c + 1 > 9 ? 0 : c + 1, d].join(''),
+        [a, b + 1 > 9 ? 0 : b + 1, c, d].join(''),
+        [a + 1 > 9 ? 0 : a + 1, b, c, d].join(''),
+        [a, b, c, d - 1 < 0 ? 9 : d - 1].join(''),
+        [a, b, c - 1 < 0 ? 9 : c - 1, d].join(''),
+        [a, b - 1 < 0 ? 9 : b - 1, c, d].join(''),
+        [a - 1 < 0 ? 9 : a - 1, b, c, d].join(''),
+    ]
+}
+
+console.log(openLock(["8887","8889","8878","8898","8788","8988","7888","9888"],
+"8888"));
