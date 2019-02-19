@@ -33,15 +33,41 @@ The cells are adjacent in only four directions: up, down, left and right.
  * @return {number[][]}
  */
 var updateMatrix = function(matrix) {
-    const state = {}
+    const dp = []
 
     for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[0].length; j++) {
-            matrix[i][j] = walk(matrix, i, j, state)
+        dp[i] = []
+        for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] === 0) {
+                dp[i][j] = 0
+            } else {
+                let [l, u] = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]
+                if (i > 0) {u = dp[i - 1][j] }
+                if (j > 0) {l = dp[i][j - 1] }
+                dp[i][j] = Math.min(l, u) + 1
+            }
         }
     }
 
-    console.log(matrix);
+    console.log(dp);
+
+    for(let i=matrix.length-1;i>=0;i--) {
+        for(let j=matrix[i].length-1;j>=0;j--){
+            if(matrix[i][j] === 0){
+                dp[i][j] = 0
+            }else{
+                let [l, u, r, d] = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]
+                if (i > 0) {u = dp[i - 1][j] }
+                if (j > 0) {l = dp[i][j - 1] }
+                if(i<matrix.length -1) {d = dp[i+1][j]}
+                if(j<matrix[i].length -1) {r = dp[i][j+1]}
+                dp[i][j] = Math.min(l, u, r, d) + 1
+            }
+        }
+    }
+
+    console.log(dp)
+    return dp
 }
 
-updateMatrix([[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1,1,1,0]])
+updateMatrix([[0,0,0],[0,1,0],[1,1,1]])
