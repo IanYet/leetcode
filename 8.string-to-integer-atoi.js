@@ -4,6 +4,7 @@
  * [8] String to Integer (atoi)
  */
 /**
+ * 错题
  * @param {string} str
  * @return {number}
  */
